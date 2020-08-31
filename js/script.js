@@ -1,5 +1,5 @@
-$(document).ready(function(){
-    
+$(document).ready(function () {
+
     // Creare un oggetto che descriva uno studente con le seguenti proprietà:
     // nome, cognome ed età.
     // var studente = {
@@ -16,7 +16,7 @@ $(document).ready(function(){
     // }
 
     //Creare un array di oggetti di studenti.
-    var studenti = [
+    var arrayStudenti = [
         {
             'nome': 'Mario',
             'cognome': 'Rossi',
@@ -34,36 +34,38 @@ $(document).ready(function(){
         },
     ];
 
-
-    // Ciclare su tutti gli studenti e stampare per ognuno nome e cognome.
-    // for (var i =0; i<studenti.length; i++){
-    //     console.log(studenti[i].nome +' '+ studenti[i].cognome);
-
-    // }
-
-
-    //Dare la possibilità all’utente attraverso 
-    //3 prompt di aggiungere un nuovo oggetto studente inserendo
-    //nell’ordine: nome, cognome e età.
-    $('#nuovoStud').click( function (){
-    var nome = prompt('inserire il nome')
-    var cognome = prompt('inserire il cognome');
-    var eta = parseInt(prompt('inserire l\'età'));
-    studenti.push({
-        'nome': nome,
-        'cognome': cognome,
-        'eta': eta,
-    }) 
-    // console.log(studenti);
-    })
-
     //carico l'elenco degli studenti in html
-    for (var i =0; i<studenti.length; i++){
-        var stud = $('#template #studente').clone()
-        stud.find('.nome').append(studenti[i].nome);
-        stud.find('.cognome').append(studenti[i].cognome);
-        stud.find('.eta').append(studenti[i].eta);
-        $('#studenti').append(stud)
+    for (var i = 0; i < arrayStudenti.length; i++) {
+
+        var source = $("#entry-template").html();
+        var template = Handlebars.compile(source);
+        var stampaStudente = {
+            'nome': arrayStudenti[i].nome,
+            'cognome': arrayStudenti[i].cognome,
+            'eta': arrayStudenti[i].eta
+        }
+        var html = template(stampaStudente);
+        $('#studenti').append(html);
     }
 
+    //funzione per inserimento nuovo studente
+    $('#nuovoStud').click(function () {
+        //inserimento dati da parte dell'utente
+        var nuovoStudente = {
+            'nome': prompt('inserire il nome'),
+            'cognome': prompt('inserire il cognome'),
+            'eta': parseInt(prompt('inserire l\'età'))
+        }
+        //aggiungo nuovo studente all'array
+        arrayStudenti.push(nuovoStudente);
+        //stampo su html il nuovo studente
+        var stampaStudente = {
+            'nome': nuovoStudente.nome,
+            'cognome': nuovoStudente.cognome,
+            'eta': nuovoStudente.eta
+        }
+        var html = template(stampaStudente);
+        $('#studenti').append(html);
+    })
 });
+
