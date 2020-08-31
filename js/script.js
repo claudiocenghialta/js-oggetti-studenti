@@ -35,10 +35,9 @@ $(document).ready(function () {
     ];
 
     //carico l'elenco degli studenti in html
+    var source = $("#entry-template").html();
+    var template = Handlebars.compile(source);
     for (var i = 0; i < arrayStudenti.length; i++) {
-
-        var source = $("#entry-template").html();
-        var template = Handlebars.compile(source);
         var stampaStudente = {
             'nome': arrayStudenti[i].nome,
             'cognome': arrayStudenti[i].cognome,
